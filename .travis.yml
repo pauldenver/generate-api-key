@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "10"
+  - "11"
+  - "12"
+  - "13"
+  - "14"
+  - "15"
+  - "lts/*"
+  - "node"
+script:
+  - npm run test:coverage
+after_success:
+  - npm run test:coveralls
+  - npm run test:codecov
