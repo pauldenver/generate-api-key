@@ -1,0 +1,16 @@
+{
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [],
+  "reporter": [
+    "text",
+    "html",
+    "lcovonly"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "all": false,
+  "cache": true
+}

@@ -1,0 +1,29 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "files": [
+    "*.md",
+    "*.js",
+    "src/**/*.ts",
+    "test/**/*.spec.ts",
+    "test/**/*.test-d.ts",
+    ".github/workflows/*.yml"
+  ],
+  "words": [
+    "uuidv",
+    "codecov",
+    "lcov"
+  ],
+  "allowCompoundWords": true,
+  "ignorePaths": [
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    "tsconfig.json",
+    "node_modules/**"
+  ],
+  "ignoreRegExpList": [
+    "/'[^\\s]{20,}'/",
+    "/'ABCDEFGHI'/"
+  ]
+}

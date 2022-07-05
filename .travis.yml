@@ -1,15 +1,12 @@
 language: node_js
 node_js:
-  - "10"
-  - "11"
-  - "12"
-  - "13"
   - "14"
-  - "15"
+  - "16"
   - "lts/*"
-  - "node"
 script:
-  - npm run test:coverage
+  - npm run test:lint
+  - npm run test:spelling
+  - npm run test:types
+  - npm run test:cov
 after_success:
   - npm run test:coveralls
-  - npm run test:codecov

@@ -1,11 +1,25 @@
-const { expect } = require('chai');
-const rewire = require('rewire');
-const { v4: uuidv4 } = require('uuid');
-const generateApiKey = require('../lib');
+import { expect } from 'chai';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
+import { existsSync } from 'fs';
+import {
+  DEFAULT_CHARACTER_POOL,
+  BASE62_CHAR_POOL
+} from '../src/constants';
 
-const apiKeyRewire = rewire('../lib/generate_api_key');
-const charPool = apiKeyRewire.__get__('CHARS_POOL');
-const base62Pool = apiKeyRewire.__get__('BASE62_POOL');
+// Check what we are testing.
+const shouldTestBuild = (
+  process.env.TEST_BUILD
+  && existsSync(path.resolve(__dirname, '../dist/index.js'))
+);
+
+/*
+ * Determine if we are testing the Typescript files
+ * or the JavaScript build.
+ */
+const { generateApiKey } = shouldTestBuild
+  ? require('../dist/index')
+  : require('../src');
 
 describe('generateApiKey', () => {
   context(`'bytes' method`, () => {
@@ -57,7 +71,7 @@ describe('generateApiKey', () => {
       
       expect(apiKey).to.be.a('string');
       expect(apiKey).to.have.lengthOf.within(16, 32);
-      [ ...apiKey ].forEach((c) => expect(charPool).to.include(c));
+      [ ...apiKey ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
     });
 
     it('should create an API key with a set length', () => {
@@ -66,7 +80,7 @@ describe('generateApiKey', () => {
       
       expect(apiKey).to.be.a('string');
       expect(apiKey).to.have.lengthOf(15);
-      [ ...apiKey ].forEach((c) => expect(charPool).to.include(c));
+      [ ...apiKey ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
     });
 
     it(`should create an API key with a length within the 'min' and 'max' range`, () => {
@@ -75,7 +89,7 @@ describe('generateApiKey', () => {
       
       expect(apiKey).to.be.a('string');
       expect(apiKey).to.have.lengthOf.within(10, 25);
-      [ ...apiKey ].forEach((c) => expect(charPool).to.include(c));
+      [ ...apiKey ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
     });
   });
 
@@ -106,7 +120,7 @@ describe('generateApiKey', () => {
       
       expect(apiKey).to.be.a('string');
       expect(apiKey).to.have.lengthOf.at.most(22);
-      [ ...apiKey ].forEach((c) => expect(base62Pool).to.include(c));
+      [ ...apiKey ].forEach((c) => expect(BASE62_CHAR_POOL).to.include(c));
     });
   });
 
@@ -154,7 +168,7 @@ describe('generateApiKey', () => {
         method: 'uuidv5',
         name: 'Super secret',
         batch: 2,
-      });
+      }) as string[];
 
       expect(apiKeys).to.be.an('array');
       expect(apiKeys).to.have.lengthOf(2);
@@ -190,6 +204,7 @@ describe('generateApiKey', () => {
 
       expect(() => generateApiKey({
         method: 'uuidv5',
+        // @ts-ignore: "name" expects a string.
         name: 102,
         namespace: uuidv4(),
       })).to.throw(TypeError, `The required 'name' option must be a string.`);
@@ -204,19 +219,26 @@ describe('generateApiKey', () => {
       expect(() => generateApiKey({
         method: 'uuidv5',
         name: 'Very special',
+        // @ts-ignore: "namespace" expects a string.
         namespace: {},
       })).to.throw(TypeError, `The required 'namespace' option must be a string.`);
+
+      expect(() => generateApiKey({
+        method: 'uuidv5',
+        name: 'Very special',
+        namespace: 'not a valid uuid',
+      })).to.throw(Error, `The required 'namespace' option must be a valid UUID.`);
     });
   });
 
   it('should create an API key with a prefix', () => {
     // Create the API key.
-    const apiKey = generateApiKey({ method: 'string', prefix: 'app' });
+    const apiKey = generateApiKey({ method: 'string', prefix: 'app' }) as string;
     
     expect(apiKey).to.be.a('string');
     expect(apiKey.startsWith('app.')).to.be.true;
     expect(apiKey.replace(/^app\./, '')).to.have.lengthOf.within(16, 32);
-    [ ...apiKey.replace(/^app\./, '') ].forEach((c) => expect(charPool).to.include(c));
+    [ ...apiKey.replace(/^app\./, '') ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
   });
 
   it(`should create an API key using the 'string' method when not provided`, () => {
@@ -225,15 +247,17 @@ describe('generateApiKey', () => {
     
     expect(apiKey).to.be.a('string');
     expect(apiKey).to.have.lengthOf.within(16, 32);
-    [ ...apiKey ].forEach((c) => expect(charPool).to.include(c));
+    [ ...apiKey ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
   });
 
   it(`should throw an error for an invalid 'method' value`, () => {
     expect(() => generateApiKey({
+      // @ts-ignore: "method" expects a string.
       method: 99,
     })).to.throw(Error, 'Received an unknown API key generation method.');
 
     expect(() => generateApiKey({
+      // @ts-ignore: "method" expects a valid method value.
       method: 'other',
       batch: 8,
     })).to.throw(Error, 'Received an unknown API key generation method.');
@@ -241,7 +265,7 @@ describe('generateApiKey', () => {
 
   it('should generate a batch of API keys', () => {
     // Create the API keys.
-    const apiKeys = generateApiKey({ method: 'string', batch: 10 });
+    const apiKeys = generateApiKey({ method: 'string', batch: 10 }) as string[];
     
     expect(apiKeys).to.be.an('array');
     expect(apiKeys).to.have.lengthOf(10);
@@ -249,13 +273,17 @@ describe('generateApiKey', () => {
     apiKeys.forEach((key) => {
       expect(key).to.be.a('string');
       expect(key).to.have.lengthOf.within(16, 32);
-      [ ...key ].forEach((c) => expect(charPool).to.include(c));
+      [ ...key ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
     });
   });
 
   it('should generate a batch of API keys with a prefix', () => {
     // Create the API keys.
-    const apiKeys = generateApiKey({ method: 'string', batch: 5, prefix: 'test' });
+    const apiKeys = generateApiKey({
+      method: 'string',
+      batch: 5,
+      prefix: 'test'
+    }) as string[];
     
     expect(apiKeys).to.be.an('array');
     expect(apiKeys).to.have.lengthOf(5);
@@ -264,7 +292,7 @@ describe('generateApiKey', () => {
       expect(key).to.be.a('string');
       expect(key.startsWith('test.')).to.be.true;
       expect(key.replace(/^test\./, '')).to.have.lengthOf.within(16, 32);
-      [ ...key.replace(/^test\./, '') ].forEach((c) => expect(charPool).to.include(c));
+      [ ...key.replace(/^test\./, '') ].forEach((c) => expect(DEFAULT_CHARACTER_POOL).to.include(c));
     });
   });
 
@@ -281,6 +309,13 @@ describe('generateApiKey', () => {
 
     expect(() => generateApiKey({
       method: 'string',
+      batch: 0,
+    })).to.throw(TypeError, `The 'batch' option must be a natural number > 0.`);
+
+
+    expect(() => generateApiKey({
+      method: 'string',
+      // @ts-ignore: "batch" expects a number.
       batch: [],
     })).to.throw(TypeError, `The 'batch' option must be a natural number > 0.`);
   });

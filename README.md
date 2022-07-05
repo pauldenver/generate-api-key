@@ -1,6 +1,17 @@
-# generate-api-key  ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/pauldenver/generate-api-key/main)  [![Build Status](https://travis-ci.com/pauldenver/generate-api-key.svg?branch=main)](https://travis-ci.com/pauldenver/generate-api-key) [![Coverage Status](https://coveralls.io/repos/github/pauldenver/generate-api-key/badge.svg?branch=main)](https://coveralls.io/github/pauldenver/generate-api-key?branch=main)  [![codecov](https://codecov.io/gh/pauldenver/generate-api-key/branch/main/graph/badge.svg)](https://codecov.io/gh/pauldenver/generate-api-key)
+# generate-api-key  
 
-`generate-api-key` is a library for generating random API key/access tokens.
+[![GitHub package.json version (branch)][version-image]][npm-url]
+[![unit tests][tests-image]][tests-url]
+[![Build Status][travis-image]][travis-url]
+[![coverage][coverage-image]][coverage-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![CodeFactor][codefactor-image]][codefactor-url]  
+
+
+`generate-api-key` is a library for generating random API (Application Programming Interface) 
+keys or access tokens. By using this library, a Node.js backend service can generate API keys 
+or access tokens, then issue them to users and/or other services that require access to the 
+capabilities and resources provided by the API service.  
 
 
 ## Table of contents
@@ -15,8 +26,10 @@
   - [`base62` Method](#base62-method)
   - [`uuidv4` Method](#uuidv4-method)
   - [`uuidv5` Method](#uuidv5-method)
+- [Security](#security)
 - [Change Log](#change-log)
-- [License](#license)
+- [License](#license)  
+<br />
 
 ## Installation
 
@@ -31,6 +44,7 @@ Using Yarn:
 ```bash
 $ yarn add generate-api-key
 ```
+<br />
 
 ## Usage
 
@@ -331,10 +345,42 @@ generateApiKey({
 ```
 <br />
 
+## Security  
+
+When generating and storing API keys and access tokens please be mindful of secure 
+database storage best practices. The reason API keys or access tokens are stored is to 
+confirm the key/token that is provided (ex. HTTP request) is valid and issued by your 
+organization or application (the same as a password). Just like a password, an API key 
+or access token can provide direct access to data or services that require authentication.
+
+To authenticate an API key or access token, it is not necessary to know the raw 
+key/token value, the key/token just needs to validated to be correct. API keys and 
+access tokens should not be stored in plain text in your database, they should be 
+stored as a hashed value. Consider using database storage concepts such as salting 
+or peppering during the hashing process. 
+
+Lastly, if you suspect the API credentials for your organization or application have 
+been compromised, please revoke the keys and regenerate new keys.  
+<br />
+
 ## Change Log
 
-The [CHANGELOG](./CHANGELOG.md) contains descriptions of notable changes.
+The [CHANGELOG](./CHANGELOG.md) contains descriptions of notable changes.  
+<br />
 
 ## License
 
-This software is licensed under the [Apache 2 license](./LICENSE).
+This software is licensed under the [Apache 2 license](./LICENSE).  
+
+[npm-url]: https://www.npmjs.com/package/generate-api-key
+[version-image]: https://img.shields.io/github/package-json/v/pauldenver/generate-api-key/main?label=version&style=flat-square
+[tests-url]: https://github.com/pauldenver/generate-api-key/actions/workflows/test.yml
+[tests-image]: https://github.com/pauldenver/generate-api-key/actions/workflows/test.yml/badge.svg?branch=main
+[coverage-url]: https://github.com/pauldenver/generate-api-key/actions/workflows/coverage.yml
+[coverage-image]: https://github.com/pauldenver/generate-api-key/actions/workflows/coverage.yml/badge.svg?branch=main
+[travis-url]: https://travis-ci.com/pauldenver/generate-api-key
+[travis-image]: https://travis-ci.com/pauldenver/generate-api-key.svg?branch=main
+[coveralls-url]: https://coveralls.io/github/pauldenver/generate-api-key
+[coveralls-image]: https://coveralls.io/repos/github/pauldenver/generate-api-key/badge.svg?branch=main
+[codefactor-url]: https://www.codefactor.io/repository/github/pauldenver/generate-api-key/overview/main
+[codefactor-image]: https://www.codefactor.io/repository/github/pauldenver/generate-api-key/badge/main
