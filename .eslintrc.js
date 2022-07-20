@@ -18,12 +18,14 @@ module.exports = {
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
     }],
+    'semi': [ 'error', 'always' ],
     '@typescript-eslint/no-explicit-any': 'off',
   },
   overrides: [
     {
       files: [ 'test/generate_api_key.spec.ts' ],
       rules: {
+        '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/ban-ts-comment': [
           'error',
           {

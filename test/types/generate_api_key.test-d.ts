@@ -171,7 +171,7 @@ expectAssignable<ApiKeyResults>([ 'key1', 'key2' ]);
 expectNotAssignable<ApiKeyResults>(8743);
 
 // Check the generation results.
-expectType<ApiKeyResults>(generateApiKey())
+expectType<ApiKeyResults>(generateApiKey());
 
 generationMethods.forEach((m) => {
   expectType<ApiKeyResults>(generateApiKey({ method: m }));

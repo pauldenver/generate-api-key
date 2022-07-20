@@ -14,6 +14,7 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "esModuleInterop": true
   },

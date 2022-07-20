@@ -1,2 +1,2 @@
-export { generateApiKey } from './generate_api_key';
+export { generateApiKey, default } from './generate_api_key';
 export * from './types';

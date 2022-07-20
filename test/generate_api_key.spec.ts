@@ -319,4 +319,15 @@ describe('generateApiKey', () => {
       batch: [],
     })).to.throw(TypeError, `The 'batch' option must be a natural number > 0.`);
   });
+
+  context(`should import 'generateApiKey' as a default import`, () => {
+    const generateApiKeyDefault = shouldTestBuild
+      ? require('../dist/index').default
+      : require('../src').default;
+
+    // Create the API key.
+    const apiKey = generateApiKeyDefault();
+    
+    expect(apiKey).to.be.a('string');
+  });
 });

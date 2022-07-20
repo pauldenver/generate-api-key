@@ -186,7 +186,7 @@ const getUuidV4ApiKey = (options: UuidV4GenerationOptions): string => {
 
   // Check if we should remove dashes.
   return (!options.dashes) ? apiKey.replace(/-/g, '') : apiKey;
-}
+};
 
 /**
  * Creates an API key using random UUID Version 5 generation.
@@ -230,7 +230,7 @@ const getUuidV5ApiKey = (options: UuidV5GenerationOptions): string => {
 
   // Check if we should remove dashes.
   return (!options.dashes) ? apiKey.replace(/-/g, '') : apiKey;
-}
+};
 
 /**
  * Generates a simple API key or a batch of API keys based on 
@@ -287,6 +287,6 @@ export const generateApiKey = (options: GenerationOptions = {}): ApiKeyResults =
     // Add a prefix if necessary.
     return (options.prefix) ? `${options.prefix}.${apiKey}` : apiKey;
   }
-}
+};
 
 export default generateApiKey;

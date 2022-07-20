@@ -53,10 +53,24 @@ generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and
 `uuidv5`. The `string` method is used by default.  
 <br />
 
+Importing:  
+
+```javascript
+// CommonJS Import
+const { generateApiKey } = require('generate-api-key');
+// OR
+const generateApiKey = require('generate-api-key').default;
+
+// ES6 Import
+import { generateApiKey } from 'generate-api-key';
+// OR
+import generateApiKey from 'generate-api-key';
+```
+
 Example:
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Generate the API key.
 generateApiKey(); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
@@ -95,7 +109,7 @@ Creates an API key/access token using random string generation.
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Generate the API key. The 'string' method is used by default.
 generateApiKey(); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
@@ -147,7 +161,7 @@ Creates an API key/access token using random bytes.
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Provide the generation method.
 generateApiKey({ method: 'bytes' }); // ⇨ '6f31bfc3717d63e7bd21'
@@ -188,7 +202,7 @@ Creates an API key/access token using a random UUID and converting it into a [Do
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Provide the generation method.
 generateApiKey({ method: 'base32' }); // ⇨ '2NOLH5I-43EEK7A-R6YRK3I-BRCIQNQ'
@@ -225,7 +239,7 @@ Creates an API key using Base62 encoding.
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Provide the generation method.
 generateApiKey({ method: 'base62' }); // ⇨ '2AEmXhHtNJkIAqL1S3So6G'
@@ -260,7 +274,7 @@ Creates an API key/access token using random UUID Version 4 generation.
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Provide the generation method.
 generateApiKey({ method: 'uuidv4' }); // ⇨ 'c40c974f-307e-490e-8d4e-0c8f31f21df3'
@@ -300,7 +314,7 @@ Creates an API key/access token using random UUID Version 5 generation.
 Examples:  
 
 ```javascript
-const generateApiKey = require('generate-api-key');
+import generateApiKey from 'generate-api-key';
 
 // Provide the generation method with the name and namespace.
 generateApiKey({
