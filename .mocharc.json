@@ -1,0 +1,6 @@
+{
+  "extension": ["spec.ts"],
+  "require": ["ts-node/register"],
+  "reporter": "spec",
+  "spec": "test/**/*.spec.ts"
+}

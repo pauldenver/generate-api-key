@@ -1,43 +1,38 @@
 module.exports = {
-  env: {
-    commonjs: true,
-    es6: true,
-    node: true,
-  },
-  extends: [
-    'google',
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint'
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  rules: { 
+    'no-console': 'error',
+    'max-len': [ 'error', 120, 2, {
+      ignoreUrls: true,
+      ignoreComments: false,
+      ignoreRegExpLiterals: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+    }],
+    'semi': [ 'error', 'always' ],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
-  parserOptions: {
-    ecmaVersion: 2018,
-  },
-  rules: {
-    'array-bracket-spacing': [ 'error', 'always' ],
-    'valid-jsdoc': [ 'error',
-      {
-        requireParamDescription: false,
-        requireReturnDescription: false,
-        requireReturn: false,
-        prefer: { returns: 'returns' },
+  overrides: [
+    {
+      files: [ 'test/generate_api_key.spec.ts' ],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/ban-ts-comment': [
+          'error',
+          {
+            'ts-ignore': false,
+          },
+        ],
       },
-    ],
-    'max-len': [ 'error',
-      {
-        code: 85,
-        tabWidth: 2,
-        ignoreUrls: true,
-      },
-    ],
-    'object-curly-spacing': [ 'error', 'always' ],
-    'indent': [
-      'error', 2, {
-        CallExpression: {
-          arguments: 'off',
-        },
-      },
-    ],
-  },
+    }
+  ]
 };
