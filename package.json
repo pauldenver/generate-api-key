@@ -1,7 +1,7 @@
 {
   "name": "generate-api-key",
   "description": "A library for generating random API key/access tokens",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "keywords": [

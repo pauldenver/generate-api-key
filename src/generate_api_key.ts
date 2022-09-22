@@ -38,7 +38,6 @@ import {
  * @returns The API key.
  */
 const getCryptoApiKey = (options: BytesGenerationOptions): string => {
-  let totalBytes: number;
   let apiKey: string;
 
   // Get the options.
@@ -50,24 +49,21 @@ const getCryptoApiKey = (options: BytesGenerationOptions): string => {
   // Get a 'Chance' instance.
   const chance = new Chance();
 
-  if (options.length) {
-    totalBytes = Math.ceil(options.length / 2);
-  } else {
-    // Get a random number.
-    const numVal = chance.natural({ min: options.min, max: options.max });
-    // Set the total bytes.
-    totalBytes = Math.ceil(numVal / 2);
-  }
+  // Determine the length for the key.
+  const length = options.length ?? chance.natural({
+    min: options.min,
+    max: options.max
+  });
+
+  // Set the total bytes.
+  const totalBytes = Math.ceil(length / 2);
 
   // Generate the API key.
   apiKey = randomBytes(totalBytes).toString('hex');
 
   // Check the key length.
-  if (options.length && (apiKey.length > options.length)) {
-    const endIndex = apiKey.length - (apiKey.length - options.length);
-    apiKey = apiKey.slice(0, endIndex);
-  } else if (apiKey.length > options.max) {
-    const endIndex = apiKey.length - (apiKey.length - options.max);
+  if (apiKey.length > length) {
+    const endIndex = apiKey.length - (apiKey.length - length);
     apiKey = apiKey.slice(0, endIndex);
   }
 
@@ -94,7 +90,7 @@ const getRandomStringApiKey = (options: StringGenerationOptions): string => {
   // Determine the length for the key.
   const length = options.length ?? chance.natural({
     min: options.min,
-    max: options.min
+    max: options.max
   });
 
   // Generate the string.
