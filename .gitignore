@@ -5,3 +5,4 @@ coverage/
 package-lock.json
 yarn.lock
 *.log
+test/__*__.js

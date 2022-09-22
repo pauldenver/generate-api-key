@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.  
 
+## [v1.0.2](https://github.com/pauldenver/generate-api-key/compare/v1.0.1...v1.0.2)
+
+### Bug Fixes
+
+*  Updated how the key length is determined when using the `bytes` method ([#3](https://github.com/pauldenver/generate-api-key/issues/3)).
+*  Fixed a typo in the `chance.natural` usage in the `string` method.
+
 ## [v1.0.1](https://github.com/pauldenver/generate-api-key/compare/v1.0.0...v1.0.1)
 
 ### Features
